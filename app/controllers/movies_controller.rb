@@ -7,8 +7,8 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @all_ratings = Movie.ratings 
-    @ratings = params[:ratings]
+    @all_ratings = Movie.ratings
+    @ratings = params[:ratings].present? ? params[:ratings] : Hash[@all_ratings.map{|m| [m,1]}]
     @movies = params[:sort_by].present? ? Movie.order("? ASC", @sort_by = params[:sort_by]) : Movie.all
     @movies.keep_if { |m| @ratings.keys.include? m.rating } if params[:ratings].present?
   end
