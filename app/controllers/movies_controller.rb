@@ -14,7 +14,7 @@ class MoviesController < ApplicationController
       @ratings = Hash.new
       @all_ratings.map{|m| @ratings[m] = 1}
     end
-    @movies = params[:sort_by].present? ? Movie.order("? ASC", @sort_by = params[:sort_by]) : Movie.all
+    @movies = params[:sort_by].present? ? Movie.order("#{@sort_by=params[:sort_by]} ASC") : Movie.all
     @movies.keep_if { |m| @ratings.keys.include? m.rating } if params[:ratings].present?
   end
 
