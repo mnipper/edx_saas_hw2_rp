@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-ruby "ruby-1.9.2-p320"
+ruby "ruby-1.9.2"
 
 gem 'rails', '3.1.0'
 
