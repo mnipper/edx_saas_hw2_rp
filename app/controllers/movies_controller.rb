@@ -8,9 +8,10 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.ratings
-    if params[:sort_by] != session[:sort] or params[:ratings] != session[:ratings]
+    
+    if params[:sort_by] != session[:sort_by] or params[:ratings] != session[:ratings]
       session[:sort_by] = params[:sort_by]
-      session[:ratings] = param[:ratings]
+      session[:ratings] = params[:ratings]
       redirect_to sort_by: params[:sort_by], ratings: params[:ratings] and return
     end
 =begin
