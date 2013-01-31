@@ -8,11 +8,18 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.ratings
+    if params[:sort_by] != session[:sort] or params[:ratings] != session[:ratings]
+      session[:sort_by] = params[:sort_by]
+      session[:ratings] = param[:ratings]
+      redirect_to sort_by: params[:sort_by], ratings: params[:ratings] and return
+    end
+=begin
     [:ratings, :sort_by].each do |s|
       if session[s].present? and params[s].nil?
         params[s] = session[s]
       end
     end
+=end
 
     if params[:ratings].present?
       @ratings = params[:ratings]
