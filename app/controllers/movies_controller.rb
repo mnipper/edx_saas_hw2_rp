@@ -11,8 +11,6 @@ class MoviesController < ApplicationController
     [:ratings, :sort_by].each do |s|
       if session[s].present? and params[s].nil?
         params[s] = session[s]
-        session[s] = nil
-        redirect_to movies_path, params
       end
     end
 
