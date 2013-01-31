@@ -12,9 +12,10 @@ class MoviesController < ApplicationController
       if session[s].present? and params[s].nil?
         params[s] = session[s]
         session[s] = nil
+        redirect_to movies_path, params
       end
     end
-    redirect_to movies_path + '?' + session.to_query if session[:ratings].present? and session[:sort_by].present?
+
     if params[:ratings].present?
       @ratings = params[:ratings]
       session[:ratings] = params[:ratings] 
