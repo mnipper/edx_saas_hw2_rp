@@ -9,8 +9,8 @@ class MoviesController < ApplicationController
   def index
     @all_ratings = Movie.ratings
     @ratings = params[:ratings] || session[:ratings] || {}
-    @ratings = @all_ratings.map{|m| @ratings[m] = 1} if @ratings = []
-    params[:sort_by].present? ? @movies = Movie.order("#{@sort_by=params[:sort_by]} ASC") : @movies = Movie.all
+    @all_ratings.map{|m| @ratings[m] = 1} if @ratings = {}
+    @movies = params[:sort_by].present? ? Movie.order("#{@sort_by=params[:sort_by]} ASC") : Movie.all
     if params[:sort_by] != session[:sort_by] or params[:ratings] != session[:ratings]
       session[:sort_by] = params[:sort_by]
       session[:ratings] = params[:ratings]
