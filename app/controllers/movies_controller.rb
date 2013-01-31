@@ -14,7 +14,7 @@ class MoviesController < ApplicationController
         session[s] = nil
       end
     end
-    redirect_to movies_path unless session.nil?
+    redirect_to movies_path + '?' + session.to_query if session[:ratings].present? and session[:sort_by].present?
     if params[:ratings].present?
       @ratings = params[:ratings]
       session[:ratings] = params[:ratings] 
