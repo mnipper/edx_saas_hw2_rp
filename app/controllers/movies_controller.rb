@@ -8,35 +8,14 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.ratings
-    
+    @ratings = params[:ratings] || session[:ratings] || {}
+    @ratings = @all_ratings.map{|m| @ratings[m] = 1} if @ratings = []
+    params[:sort_by].present? ? @movies = Movie.order("#{@sort_by=params[:sort_by]} ASC") : @movies = Movie.all
     if params[:sort_by] != session[:sort_by] or params[:ratings] != session[:ratings]
       session[:sort_by] = params[:sort_by]
       session[:ratings] = params[:ratings]
       redirect_to sort_by: params[:sort_by], ratings: params[:ratings] and return
     end
-=begin
-    [:ratings, :sort_by].each do |s|
-      if session[s].present? and params[s].nil?
-        params[s] = session[s]
-      end
-    end
-=end
-
-    if params[:ratings].present?
-      @ratings = params[:ratings]
-      session[:ratings] = params[:ratings] 
-    else
-      @ratings = Hash.new
-      @all_ratings.map{|m| @ratings[m] = 1}
-    end
-
-    if params[:sort_by].present?
-      @movies = Movie.order("#{@sort_by=params[:sort_by]} ASC")
-      session[:sort_by] = params[:sort_by]
-    else
-      @movies = Movie.all
-    end
-
     @movies.keep_if { |m| @ratings.keys.include? m.rating } if params[:ratings].present?
   end
 
