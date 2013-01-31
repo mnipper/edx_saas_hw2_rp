@@ -11,8 +11,10 @@ class MoviesController < ApplicationController
     [:ratings, :sort_by].each do |s|
       if session[s].present? and params[s].nil?
         params[s] = session[s]
+        session[s] = nil
       end
     end
+    redirect_to movies_path unless session.nil?
     if params[:ratings].present?
       @ratings = params[:ratings]
       session[:ratings] = params[:ratings] 
@@ -20,12 +22,14 @@ class MoviesController < ApplicationController
       @ratings = Hash.new
       @all_ratings.map{|m| @ratings[m] = 1}
     end
+
     if params[:sort_by].present?
       @movies = Movie.order("#{@sort_by=params[:sort_by]} ASC")
       session[:sort_by] = params[:sort_by]
     else
       @movies = Movie.all
     end
+
     @movies.keep_if { |m| @ratings.keys.include? m.rating } if params[:ratings].present?
   end
 
